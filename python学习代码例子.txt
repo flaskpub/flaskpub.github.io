@@ -1,0 +1,12 @@
+python实现的文本编辑器:http://blog.csdn.net/yueguanghaidao/article/details/7098146
+Python代码实现简易计算器:http://blog.csdn.net/hewei0241/article/details/31370487
+
+
+
+
+
+
+
+
+
+
