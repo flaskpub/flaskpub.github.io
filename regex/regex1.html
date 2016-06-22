@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<title>Python:使用正则表达式(一)</title>
+<link rel="stylesheet" href="regex.css">
+</head>
+<body>
+<h1>Python:使用正则表达式(一)</h1>
+<div class="content" style="margin-left:5px;margin-right:5px;">
+  <h2>#1: 导入相关模块</h2>
+在Python中，要使用正则表达式，就要用到 <code>re</code> 模块，因此在使用正则表达式之前需要首先导入该模块.
+<pre style="background-color:#EBEBEB;" class=" language-python"><code class=" language-python"><span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> <span class="token keyword">import</span> re
+</code></pre>
+<h2>#2: 创建正则表达式对象</h2>
+如果要在程序中多次使用同一个正则表达式的话，可以创建一个相应的正则表达式对象，这样可以提高使用效率.创建正则表达式对象，需要用到 <code>re</code> 模块中的 <code>compile()</code> 函数:<br>
+reobj = re.compile("<em>regex pattern</em>")
+<h2>#3:设置正则表达式的选项</h2>
+在Python中，可以通过下列常量来设置正则表达式的选项:
+<ul>
+<li><strong>宽松排列:</strong> re.VERBOSE 或 re.X</li>
+<li><strong>不区分大小写:</strong> re.IGNORECASE 或 re.I</li>
+<li><strong>点号匹配换行符:</strong> re.DOTALL 或 re.S</li>
+<li><strong>脱字符和美元符号匹配换行处:</strong> re.MULTILINE 或 re.M</li>
+</ul>
+你可以将上述常量放到 <code>re.compile()</code> 函数的第二个可选参数处来设置，如果要同时设置多个选项，可以使用 <strong>|</strong> 符号来分隔多个选项:
+<pre style="background-color:#EBEBEB;" class=" language-python"><code class=" language-python"><span class="token keyword">import</span> re
+reobj <span class="token operator">=</span> re<span class="token punctuation">.</span>compile<span class="token punctuation">(</span><span class="token string">"regex pattern"</span><span class="token punctuation">,</span> 
+                re<span class="token punctuation">.</span>VERBOSE <span class="token operator">|</span> re<span class="token punctuation">.</span>IGNORECASE <span class="token operator">|</span>
+                re<span class="token punctuation">.</span>DOTALL <span class="token operator">|</span> re<span class="token punctuation">.</span>MULTILINE<span class="token punctuation">)</span>
+</code></pre>
+<h2>#4: 检查是否可以在目标字符串中找到匹配</h2>
+对于一次性的快速测试，可以直接使用全局函数 <code>re.search()</code>:
+<pre style="background-color:#EBEBEB;" class=" language-python"><code class=" language-python"><span class="token keyword">import</span> re
+<span class="token comment" spellcheck="true"># string 为目标字符串</span>
+<span class="token keyword">if</span> re<span class="token punctuation">.</span>search<span class="token punctuation">(</span><span class="token string">"regex pattern"</span><span class="token punctuation">,</span> string<span class="token punctuation">)</span>
+    <span class="token comment" spellcheck="true"># Successful match</span>
+<span class="token keyword">else</span><span class="token punctuation">:</span>
+    <span class="token comment" spellcheck="true"># Match attempt failed</span>
+</code></pre>
+如果要在程序中多次使用同一个正则表达式，可以首先创建一个相应的正则表达式对象,之后调用该对象的 <code>search()</code> 函数:
+<pre style="background-color:#EBEBEB;" class=" language-python"><code class=" language-python"><span class="token keyword">import</span> re
+reobj <span class="token operator">=</span> re<span class="token punctuation">.</span>compile<span class="token punctuation">(</span><span class="token string">"regex pattern"</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># string 为目标字符串</span>
+<span class="token keyword">if</span> reobj<span class="token punctuation">.</span>search<span class="token punctuation">(</span>string<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token comment" spellcheck="true"># Successful match</span>
+<span class="token keyword">else</span><span class="token punctuation">:</span>
+    <span class="token comment" spellcheck="true"># Match attempt failed</span>
+</code></pre>
+<h2>#5: 测试正则表达式能否完整匹配目标字符串</h2>
+想要检查一个字符串是否整体符合某个特定模式，也就是说，想要检查包含该模式的正则表达式是否可以从头到尾匹配该字符串，此时就要用的 <code>match()</code> 函数了.<br>
+对于一次性的快速测试，可以直接使用全局函数 <code>re.match()</code>:
+<pre style="background-color:#EBEBEB;" class=" language-python"><code class=" language-python"><span class="token keyword">import</span> re
+<span class="token comment" spellcheck="true"># string 表示目标字符串</span>
+<span class="token keyword">if</span> re<span class="token punctuation">.</span>match<span class="token punctuation">(</span>r<span class="token string">"regex pattern\Z"</span><span class="token punctuation">,</span> string<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token comment" spellcheck="true"># Successful match</span>
+<span class="token keyword">else</span><span class="token punctuation">:</span>
+    <span class="token comment" spellcheck="true"># Match attempt failed</span>
+</code></pre>
+如果要在程序中多次使用同一个正则表达式，可以首先创建一个相应的正则表达式对象,之后调用该对象的 <code>match()</code> 函数:
+<pre style="background-color:#EBEBEB;" class=" language-python"><code class=" language-python"><span class="token keyword">import</span> re
+<span class="token comment" spellcheck="true"># string 表示目标字符串</span>
+reobj <span class="token operator">=</span> re<span class="token punctuation">.</span>compile<span class="token punctuation">(</span>r<span class="token string">"regex pattern\Z"</span><span class="token punctuation">,</span> string<span class="token punctuation">)</span>
+<span class="token keyword">if</span> reobj<span class="token punctuation">.</span>match<span class="token punctuation">(</span>string<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token comment" spellcheck="true"># Successful match</span>
+<span class="token keyword">else</span><span class="token punctuation">:</span>
+    <span class="token comment" spellcheck="true"># Match attempt failed</span>
+</code></pre>
+上面的程序中 <code>\Z</code> 匹配字符串的末尾，更多转义字符的含义可以查看 <strong><a href="https://docs.python.org/3/library/re.html">Python文档</a></strong>.
+<h2>#6: 获取匹配文本</h2>
+假设有一个可以匹配目标字符串一部分的正则表达式，现在想要把匹配的文本提取出来，可以使用 <code>group()</code> 函数.<br>
+对于一次性的快速测试，可以直接像下面这样做:
+<pre style="background-color:#EBEBEB;" class=" language-python"><code class=" language-python"><span class="token keyword">import</span> re
+<span class="token comment" spellcheck="true"># string 表示目标字符串</span>
+matchobj <span class="token operator">=</span> re<span class="token punctuation">.</span>search<span class="token punctuation">(</span><span class="token string">"regex pattern"</span><span class="token punctuation">,</span> string<span class="token punctuation">)</span>
+<span class="token keyword">if</span> matchobj<span class="token punctuation">:</span>
+    result <span class="token operator">=</span> matchobj<span class="token punctuation">.</span>group<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">else</span><span class="token punctuation">:</span>
+    result <span class="token operator">=</span> <span class="token string">''</span>
+</code></pre>
+如果要重复使用同一个正则表达式，最好使用编译好的对象:
+<pre style="background-color:#EBEBEB;" class=" language-python"><code class=" language-python"><span class="token keyword">import</span> re
+reobj <span class="token operator">=</span> re<span class="token punctuation">.</span>compile<span class="token punctuation">(</span><span class="token string">"regex pattern"</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># string 表示目标字符串</span>
+matchobj <span class="token operator">=</span> reobj<span class="token punctuation">.</span>search<span class="token punctuation">(</span>string<span class="token punctuation">)</span>
+<span class="token keyword">if</span> matchobj<span class="token punctuation">:</span>
+    result <span class="token operator">=</span> matchobj<span class="token punctuation">.</span>group<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">else</span><span class="token punctuation">:</span>
+    result <span class="token operator">=</span> <span class="token string">''</span>
+</code></pre>
+<h2>#7: 确定匹配的位置和长度</h2>
+上面的例子是提取匹配的字串，如果想要确定该匹配的开始位置和长度，就要用到 <code>start()</code> 和 <code>end()</code> 函数了.<br>
+对于一次性的快速测试，可以直接像下面这样做:
+<pre style="background-color:#EBEBEB;" class=" language-python"><code class=" language-python"><span class="token keyword">import</span> re
+<span class="token comment" spellcheck="true"># string 表示目标字符串</span>
+matchobj <span class="token operator">=</span> re<span class="token punctuation">.</span>search<span class="token punctuation">(</span><span class="token string">"regex pattern"</span><span class="token punctuation">,</span> string<span class="token punctuation">)</span>
+<span class="token keyword">if</span> matchobj<span class="token punctuation">:</span>
+    matchstart <span class="token operator">=</span> matchobj<span class="token punctuation">.</span>start<span class="token punctuation">(</span><span class="token punctuation">)</span>       
+    matchlength <span class="token operator">=</span> matchobj<span class="token punctuation">.</span>end<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span> matchstart
+</code></pre>
+如果要重复使用同一个正则表达式，最好使用编译好的对象:
+<pre style="background-color:#EBEBEB;" class=" language-python"><code class=" language-python"><span class="token keyword">import</span> re
+reobj <span class="token operator">=</span> re<span class="token punctuation">.</span>compile<span class="token punctuation">(</span><span class="token string">"regex pattern"</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># string 表示目标字符串</span>
+matchobj <span class="token operator">=</span> reobj<span class="token punctuation">.</span>search<span class="token punctuation">(</span>string<span class="token punctuation">)</span>         
+<span class="token keyword">if</span> matchobj<span class="token punctuation">:</span>
+    matchstart <span class="token operator">=</span> matchobj<span class="token punctuation">.</span>start<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    matchlength <span class="token operator">=</span> matchobj<span class="token punctuation">.</span>end<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span> matchstart
+</code></pre>
+另外，可以通过给 <code>start()</code> 和 <code>end()</code> 函数传递一个参数来获取正则表达式中的某个捕获分组匹配到的文本范围。调用 <code>start(1)</code> 可以得到第一个捕获分组的开始位置，而调用 <code>end(2)</code> 则会得到第二个分组的结束位置，以此类推。(第0个分组是完整的正则表达式匹配)
+<br><br></body></html>

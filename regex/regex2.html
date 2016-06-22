@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Python:使用正则表达式(二)</title>
+<link rel="stylesheet" href="regex.css">
+</head>
+<body>
+<h1>Python:使用正则表达式(二)</h1>
+在 <a href="regex1.html">上一篇文章</a> 中总结了一些在Python中使用正则表达式的用法,这篇文章中接着上一篇文章，仍然是一些在Python中使用正则表达式的一些用法.
+<h2>#8: 获取匹配文本的一部分</h2>
+在第6个例子中，我们使用了无参的 <code>group()</code> 函数来提取匹配的文本，但是如果我们想要的只是匹配文本中的一部分该怎么办呢？此时就要用到捕获分组了，使用捕获分组将想要的部分分离出来.例如 <code>https://([0-9a-z.]+)</code> 会匹配字符串 "Click https://www.google.com" 中的 "https://www.google.com"。而捕获分组中匹配的是 "www.google.com", 你想要提取这部分内容。这时仍然要用到 <code>group()</code> 函数，不同的是，这次要使用的是包含有参数的 <code>group()</code>.<br>
+对于一次性的快速测试，可以直接像下面这样做:
+<pre style="background-color:#EBEBEB;" class=" language-python"><code class=" language-python"><span class="token keyword">import</span> re
+string <span class="token operator">=</span> <span class="token string">'Click https://www.google.com'</span>
+matchobj <span class="token operator">=</span> re<span class="token punctuation">.</span>search<span class="token punctuation">(</span><span class="token string">"https://(0-9a-z.)+"</span><span class="token punctuation">,</span> string<span class="token punctuation">)</span>
+<span class="token keyword">if</span> matchobj<span class="token punctuation">:</span>
+    result <span class="token operator">=</span> matchobj<span class="token punctuation">.</span>group<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+<span class="token keyword">else</span><span class="token punctuation">:</span>
+    result <span class="token operator">=</span> <span class="token string">''</span>
+</code></pre>
+如果要重复使用同一个正则表达式，最好使用编译好的对象:
+<pre style="background-color:#EBEBEB;" class=" language-python"><code class=" language-python"><span class="token keyword">import</span> re
+string <span class="token operator">=</span> <span class="token string">'Click https://www.google.com'</span>
+reobj <span class="token operator">=</span> re<span class="token punctuation">.</span>compile<span class="token punctuation">(</span><span class="token string">"https://(a-z0-9.)+"</span><span class="token punctuation">)</span>
+matchobj <span class="token operator">=</span> reobj<span class="token punctuation">.</span>search<span class="token punctuation">(</span>string<span class="token punctuation">)</span>
+<span class="token keyword">if</span> matchobj<span class="token punctuation">:</span>
+    result <span class="token operator">=</span> matchobj<span class="token punctuation">.</span>group<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+<span class="token keyword">else</span><span class="token punctuation">:</span>
+    result <span class="token operator">=</span> <span class="token string">''</span>
+</code></pre>
+上面的程序中将参数 <strong>1</strong> 传递给 <code>group()</code> 函数，表示获取第一个分组的内容，如果传递 <strong>2</strong>, 则表示获取第二个分组的内容，以此类推。Python最多支持99个捕获分组.
+<h2>#9: 获取所有的匹配子串</h2>
+通过 <code>search()</code> 函数只能匹配第一个匹配的子串，而要想获取所有匹配的子串，可以使用 <code>findall()</code>函数，该函数匹配目标字符串中与正则式匹配的所有子串，并返回一个包含所有匹配子串的列表.<br>
+对于一次性的快速测试，可以直接像下面这样做:
+<pre style="background-color:#EBEBEB;" class=" language-python"><code class=" language-python"><span class="token keyword">import</span> re
+<span class="token comment" spellcheck="true"># string 为目标字符串</span>
+result <span class="token operator">=</span> re<span class="token punctuation">.</span>findall<span class="token punctuation">(</span><span class="token string">"regex pattern"</span><span class="token punctuation">,</span> string<span class="token punctuation">)</span>
+</code></pre>
+如果要重复使用同一个正则表达式，最好使用一个编译好的对象,之后调用该对象的 <code>findall()</code> 函数:
+<pre style="background-color:#EBEBEB;" class=" language-python"><code class=" language-python"><span class="token keyword">import</span> re
+reobj <span class="token operator">=</span> re<span class="token punctuation">.</span>compile<span class="token punctuation">(</span><span class="token string">"regex pattern"</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># string 为目标子串</span>
+result <span class="token operator">=</span> reobj<span class="token punctuation">.</span>findall<span class="token punctuation">(</span>string<span class="token punctuation">)</span>
+</code></pre>
+<h2>#10: 遍历所有匹配</h2>
+要遍历所有的匹配，可以使用 <code>finditer()</code> 函数，该函数会返回一个迭代器，通过该迭代器可以找到正则表达式的所有匹配。<br>
+如果只打算使用同一个正则表达式处理少量字符串，可以使用全局函数:
+<pre style="background-color:#EBEBEB;" class=" language-python"><code class=" language-python"><span class="token keyword">import</span> re
+<span class="token comment" spellcheck="true"># string 为目标字符串</span>
+<span class="token keyword">for</span> matchobj <span class="token keyword">in</span> re<span class="token punctuation">.</span>finditer<span class="token punctuation">(</span><span class="token string">"regex pattern"</span><span class="token punctuation">,</span> string<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token comment" spellcheck="true"># do something</span>
+</code></pre>
+如果要重复使用同一个正则表达式，就需要使用一个编译好的对象:
+<pre style="background-color:#EBEBEB;" class=" language-python"><code class=" language-python"><span class="token keyword">import</span> re
+reobj <span class="token operator">=</span> re<span class="token punctuation">.</span>compile<span class="token punctuation">(</span><span class="token string">"regex pattern"</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># string 为目标字符串</span>
+<span class="token keyword">for</span> matchobj <span class="token keyword">in</span> reobj<span class="token punctuation">.</span>finditer<span class="token punctuation">(</span>string<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token comment" spellcheck="true"># do something</span>
+</code></pre>
+<h2>#11: 获取符合某些条件的匹配结果</h2>
+假如现在有一个字符串 "1,2,3,4,5",现在要获取其中的偶数数字，就需要在获取这些数字之前进行一些验证.示例如下:<br>
+如果只打算使用同一个正则表达式处理少量字符串，可以使用全局函数:
+<pre style="background-color:#EBEBEB;" class=" language-python"><code class=" language-python"><span class="token keyword">import</span> re
+ls <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+string <span class="token operator">=</span> <span class="token string">'1,2,3,4,5'</span>
+<span class="token keyword">for</span> matchobj <span class="token keyword">in</span> re<span class="token punctuation">.</span>finditer<span class="token punctuation">(</span>r<span class="token string">'\d+'</span><span class="token punctuation">,</span> string<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">if</span> int<span class="token punctuation">(</span>matchobj<span class="token punctuation">.</span>group<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">%</span> <span class="token number">2</span> <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">:</span>
+        ls<span class="token punctuation">.</span>append<span class="token punctuation">(</span>matchobj<span class="token punctuation">.</span>group<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre>
+如果要重复使用同一个正则表达式，就需要使用一个编译好的对象:
+<pre style="background-color:#EBEBEB;" class=" language-python"><code class=" language-python"><span class="token keyword">import</span> re
+ls <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+string <span class="token operator">=</span> <span class="token string">'1,2,3,4,5'</span>
+reobj <span class="token operator">=</span> re<span class="token punctuation">.</span>compile<span class="token punctuation">(</span>r<span class="token string">"\d+"</span><span class="token punctuation">)</span>
+<span class="token keyword">for</span> matchobj <span class="token keyword">in</span> reobj<span class="token punctuation">.</span>finditer<span class="token punctuation">(</span>r<span class="token string">'\d+'</span><span class="token punctuation">,</span> string<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">if</span> int<span class="token punctuation">(</span>matchobj<span class="token punctuation">.</span>group<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">%</span> <span class="token number">2</span> <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">:</span>
+        ls<span class="token punctuation">.</span>append<span class="token punctuation">(</span>matchobj<span class="token punctuation">.</span>group<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre>
+<h2>#12: 在一个匹配子串中查找另一个匹配</h2>
+假设有一个HTML文件，其中有些段落使用<code>&lt;b&gt;</code>标签标记为了粗体。现在想要找到所有标记为粗体的数字，此时就要用到 <strong>在一个匹配子串中查找另一个匹配</strong> 了,即在所有标记为粗体的子串中查找数字。
+<pre style="background-color:#EBEBEB;" class=" language-python"><code class=" language-python"><span class="token keyword">import</span> re
+ls <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+string <span class="token operator">=</span> <span class="token string">"&lt;b&gt;2&lt;/b&gt;3 4 &lt;b&gt;5 6 7&lt;/b&gt;"</span>
+inner <span class="token operator">=</span> re<span class="token punctuation">.</span>compile<span class="token punctuation">(</span>r<span class="token string">"\d+"</span><span class="token punctuation">)</span>
+<span class="token keyword">for</span> outer <span class="token keyword">in</span> re<span class="token punctuation">.</span>finditer<span class="token punctuation">(</span><span class="token string">"&lt;b&gt;(.*?)&lt;/b&gt;"</span><span class="token punctuation">,</span> string<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    ls<span class="token punctuation">.</span>extend<span class="token punctuation">(</span>inner<span class="token punctuation">.</span>findall<span class="token punctuation">(</span>outer<span class="token punctuation">.</span>group<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre>
+<h2>#13: 替换所有匹配</h2>
+要将所有匹配的子串替换为另外一些字符，可以使用 <code>sub()</code> 函数，该函数接受三个参数，全局的 <code>sub()</code> 函数可以接受三个参数，第一个参数是正则表达式，用于匹配子串，第二个参数是要将匹配的子串替换为哪些字符，第三个参数是目标字符串.<br>
+如果只是处理少量字符串，可以使用全局函数:
+<pre style="background-color:#EBEBEB;" class=" language-python"><code class=" language-python"><span class="token keyword">import</span> re
+<span class="token comment" spellcheck="true"># string 为目标字符串，new_string 为要替换为的字符串</span>
+result <span class="token operator">=</span> re<span class="token punctuation">.</span>sub<span class="token punctuation">(</span><span class="token string">'regex pattern'</span><span class="token punctuation">,</span> <span class="token string">'new_string'</span><span class="token punctuation">,</span> string<span class="token punctuation">)</span>
+</code></pre>
+如果要在程序中反复使用同一个正则表达式，就需要使用编译好的对象:
+<pre style="background-color:#EBEBEB;" class=" language-python"><code class=" language-python"><span class="token keyword">import</span> re
+reobj <span class="token operator">=</span> re<span class="token punctuation">.</span>compile<span class="token punctuation">(</span><span class="token string">'regex pattern'</span><span class="token punctuation">)</span>
+result <span class="token operator">=</span> reobj<span class="token punctuation">.</span>sub<span class="token punctuation">(</span><span class="token string">'new_string'</span><span class="token punctuation">,</span> string<span class="token punctuation">)</span>
+</code></pre>
+此外，<code>sub()</code> 函数还可以接受一个可选参数，允许你使用它来限制替换执行的次数.
+<h2>#14: 使用匹配的子串来替换匹配</h2>
+假如你想要匹配由等号分隔的单词对，然后把等号两边的单词进行交换，可以使用 <strong>反向引用</strong> 来完成.<br>
+如果只打算使用同一个正则表达式处理少量字符串，可以使用如下全局函数:
+<pre style="background-color:#EBEBEB;" class=" language-python"><code class=" language-python"><span class="token keyword">import</span> re
+string <span class="token operator">=</span> <span class="token string">'Hello=World'</span>
+result <span class="token operator">=</span> re<span class="token punctuation">.</span>sub<span class="token punctuation">(</span>r<span class="token string">"(\w+)=(\w+)"</span><span class="token punctuation">,</span> r<span class="token string">"\2=\1"</span><span class="token punctuation">,</span> string<span class="token punctuation">)</span>
+</code></pre>
+要重复使用同一个正则表达式，就需要使用一个编译好的对象:
+<pre style="background-color:#EBEBEB;" class=" language-python"><code class=" language-python"><span class="token keyword">import</span> re
+string <span class="token operator">=</span> <span class="token string">'Hello=World'</span>
+reobj <span class="token operator">=</span> re<span class="token punctuation">.</span>compile<span class="token punctuation">(</span>r<span class="token string">"(\w+)={\w+}"</span><span class="token punctuation">)</span>
+result <span class="token operator">=</span> reobj<span class="token punctuation">.</span>sub<span class="token punctuation">(</span>r<span class="token string">"\2=\1"</span><span class="token punctuation">,</span> string<span class="token punctuation">)</span>
+</code></pre>
+</body></html>
