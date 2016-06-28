@@ -22,6 +22,10 @@ text-decoration:none;
   	background:#4a4a4a;
 
 }
+#show{
+  color: red;
+text-align:center;
+}
 #top{
     color: pink;
     font-size: 60px;
