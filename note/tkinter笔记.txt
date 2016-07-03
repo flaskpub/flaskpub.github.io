@@ -1,0 +1,5 @@
+1.检测tkinter是否可用
+>>>import tkinter
+>>>tkinter._test()
+不出意外能弹出一个界面.并且有版本信息.
+

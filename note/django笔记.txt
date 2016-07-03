@@ -1,0 +1,67 @@
+1. 安装:
+c:\>pip install django
+或者指定版本:
+c:\>pip install -v django==1.7.1
+
+2. 查看django版本:
+检查是否安装成功,可以在dos下进入Django-1.7.1目录查看Django版本.
+a.输入python 
+b.输入import django
+c.输入django.get_version()
+
+3. 创建项目
+c:\>django-admin.py startproject project_name
+
+4. 建立Django app
+C:\blog>python manage.py startapp article
+
+5. 修改project_name/project_name下的setting.py:
+
+INSTALLED_APPS = (
+...
+'article', #这里填写的是app的名称
+)
+
+6. 启动Django中的开发服务器
+C:\blog>python manage.py runserver
+
+7. 查看django安装路径
+>>> import django
+>>> django
+
+8. models的配置
+因为使用app用到数据库，现在我们配置一下数据库 打开project_name\project_name\setting.py
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',  # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': '/home/gs/blog/datas/mydata.db',  # 这里是我数据库文件存放的目录，你应该替换成你自己的.
+        'USER': '',                       # Not used with sqlite3.
+        'PASSWORD': '',                   # Not used with sqlite3.
+        'HOST': '',                       # Set to empty string for localhost. Not used with sqlite3.
+        'PORT': '',                       # Set to empty string for default. Not used with sqlite3.
+    }
+}
+
+因为python自带sqlite3，为了方便我们就直接使用。其他的数据库差不多,到官方了解吧.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

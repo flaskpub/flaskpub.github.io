@@ -1,0 +1,18 @@
+由于python3的更新，原来的mysqldb的驱动无法使用了，所以我们需要使用另外一个mysql的驱动pymysql
+我们可以通过pip安装pymysql
+
+pip install pymysql
+
+安装完以后我们测试一下:
+import pymysql
+conn = pymysql.connect(host='127.0.0.1', port=3306, user='root', passwd='a5230411',db='test')
+cur = conn.cursor()
+cur.execute("SELECT * FROM users")
+for r in cur.fetchall():
+           print(r)
+           #cur.close()
+conn.close()
+
+上面的内容可以查询test数据库下面的users表的内容。
+
+源地址:http://www.jianshu.com/p/2c6ea83a83e5

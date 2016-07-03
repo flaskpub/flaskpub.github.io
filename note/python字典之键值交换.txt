@@ -1,0 +1,8 @@
+>>> myDict = {'a':'A','b':'B','c':'C'}
+>>> myDict
+{'a': 'A', 'c': 'C', 'b': 'B'}
+
+>>> myDict = {v:k for k, v in myDict.items()}
+>>> myDict
+{'A': 'a', 'C': 'c', 'B': 'b'}
+>>>

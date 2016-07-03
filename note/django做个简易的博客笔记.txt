@@ -1,0 +1,27 @@
+win7,python3.4.1,django1.7.1
+
+win7,python2.7,django1.8.2  mysql5.6  mysql-python1.2.3 pillow2.8.1
+
+python2.7:
+django1.8.2:
+mysql5.6:
+mysql-python1.2.3:https://sourceforge.net/projects/mysql-python
+pillow2.8.1:
+
+
+
+
+
+
+
+http://my.oschina.net/matrixchan/blog/184445?fromerr=MueklnZg
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,37 @@
+文件--File:
+1. 新建new
+2. 打开open
+3. 保存save
+4. 另存为 save as
+5. 退出 exit
+
+编辑--Edit:
+1. 撤销 undo
+2. 重做 redo
+3. 剪切 cut
+4. 复制 copy
+5. 粘贴 paste
+6. 删除 delete
+
+查询--search
+1. 发现 find
+2. 替代 replace
+3. 排序 sort
+
+正则--regex
+1. 四字母
+2. 四声母
+3. 双拼
+4. 四数字
+5. 五数字
+6. 英文
+7. 三拼
+
+关于--About
+1. 帮助 help
+2. 联系 contact
+
+
+
+
+

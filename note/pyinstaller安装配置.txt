@@ -1,0 +1,9 @@
+在python安装完成的前提下:
+1. 安装PyWin32
+2. 安装:pip install pyinstaller(升级:pip install --upgrade pyinstaller)
+3. 
+
+
+===============================================================================
+参考文档:
+http://legendtkl.com/2015/11/06/pyinstaller

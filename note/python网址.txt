@@ -1,0 +1,37 @@
+根号下的麻辣烫(很全面的教程):http://blog.csdn.net/a359680405/article/details/42486689
+
+Python中文开发者社区门户:http://www.pythontab.com
+Python学习大本营:http://www.pythondoc.com
+Crossin的编程教室:http://res.crossincode.com/wechat/python.html
+runoob:http://www.runoob.com/python3/python3-tutorial.html
+入门无忧网:http://www.rm5u.com/program/python
+虫师:http://www.cnblogs.com/fnng/p/3737964.html
+qindongliang1922:http://qindongliang.iteye.com
+Python快速教程:http://www.cnblogs.com/vamei/archive/2012/09/13/2682778.html
+野猪林:http://www.pycoding.com
+python之禅:http://www.pythontip.com
+===============================================================================
+django教程:
+Django1.7+Apache2.4部署:http://blog.csdn.net/yingmutongxue/article/details/43985559
+用Django构建简易博客:http://www.dannysite.com/blog/233/
+Django Book 2.0中文文档:http://djangobook.py3k.cn/2.0
+自强学堂-Django 基础教程:http://www.ziqiangxuetang.com/django/django-tutorial.html
+Django1.8.2文档:http://python.usyiyi.cn/django/index.html
+Django快速Web应用开发入门:http://study.163.com/course/introduction.htm?courseId=320022
+
+===============================================================================
+Tkinter:
+Tkinter写的一些代码例子:http://blog.csdn.net/wangyiyan315/article/category/1749669
+
+===============================================================================
+config:
+win7系统下python3.4连接mysql数据库:http://jingyan.baidu.com/article/22a299b53358bb9e19376af7.html
+下载ez_setup.py:https://bootstrap.pypa.io/ez_setup.py
+(用于python的django程序代码通过apache呈现)mod_wsgi:
+https://pypi.python.org/pypi/mod_wsgi
+(whl是python打包的一个格式,把它改为zip就可以解压)mod_wsgi,mysql_python地址:
+http://www.lfd.uci.edu/~gohlke/pythonlibs/#mod_wsgi
+
+
+
+

@@ -1,0 +1,116 @@
+通过网上搜索和牛人帮助，基本实现了功能，在此记录一下成长的过程。
+
+   1、关于apache设置，一台服务器支持多网站多域名
+
+  引用被人的：
+
+当apache在读取httpd.conf过程中遇到NameVirtuaHost指令时，它为指定的IP地址建立一个虚拟主机表；当apache分析
+httpd.conf时，每当它遇见一个<VirtualHost>指令，该指令指定的IP地址与前面分配给虚拟主机驻留的IP地址相同时，
+它都在虚拟主机列表上为该IP地址添加虚拟主机；当它找到一个虚拟主机，其 
+ServerName指令与输入请求的Host头部匹配时，apache就使用该虚拟主机容器中的配置来响应该请求，即使用多个名字指向同一个ip地址。
+在本例中，Web主机只拥有一个IP地址（合法地址）200.1.1.1，使用基于主机名称的方式设定多个虚拟主机。
+    我的配置：
+
+<VirtualHost *:80>   ### django项目的配置
+    ServerAdmin example@126.com                           # 自己的邮箱
+    DocumentRoot "/your/path"                             # 项目路径
+    ServerName ww.example.com                            # 域名                             
+    ServerAlias example.com                               # 别名
+    ErrorLog "logs/error.err"                             # 错误日志记录的位置
+    CustomLog "logs/acc.access" common                    # 访问日志的记录位置
+
+    WSGIScriptAlias / "/your/path/wsgi.py"                # wsgi.py 的路径
+    <Directory "/your/path">
+        Order allow,deny
+        Allow from all
+    </Directory>
+
+    # django下静态资源访问配置，根据自己的实际路径来配置
+    Alias /favicon.ico "/your/path/favicon.ico"
+    Alias /media "/your/path/media"
+    Alias /static "/your/path/collectedstatic"
+
+    <Directory "/your/path/collectedstatic">
+        Order deny,allow
+        Allow from all
+    </Directory>
+
+    <Directory "/your/path/media">
+        Order deny,allow
+        Allow from all
+    </Directory>
+</VirtualHost>
+
+<VirtualHost *:80>   ##### php项目的配置
+    ServerAdmin example1@126.com                         # 自己的邮箱
+    DocumentRoot "/your/path/php"                        # php项目的路径
+    ServerName                           # 域名 
+    ErrorLog "logs/ce.err"
+    CustomLog "logs/ce.access" common
+
+    <Directory "/your/path/php">
+        Options FollowSymLinks
+        AllowOverride All
+        Order deny,allow
+        Allow from all
+    </Directory>
+</VirtualHost>
+参考地址：
+
+http://bbs.51cto.com/thread-933764-1-1.html
+http://www.foreric.com/blogs/5/ 
+www.zijin5.com/2013/07/linux-apache-php-django/
+特意粘贴下这段，话说是配置两个django项目的：
+
+下面黑体字的地方是配置DaemonProcess的地方
+参考：   http://code.google.com/p/modwsgi/wiki/QuickConfigurationGuide#Delegation_To_Daemon_Process
+	http://code.google.com/p/modwsgi/wiki/ConfigurationDirectives#WSGISocketPrefix
+	
+	这里再稍微解释一下WSGISocketprefix：
+由于主进程httpd和子进程之间是通过sockets通信的，要通过在特定的文件上面新建sockets文件进行通信。如果你不指定sockets等文
+件的存放地址的话，默认是在httpd的log文件夹下(/var/log/httpd/ 
+我的CentOS是这样的)。这样有一个问题就是子进程对这个文件可能没有读写权力,所以通过WSGISocketPrefix指定到/var/run
+/的wsgi(要自己新建一个)下,这样子进程就有了和主进程沟通的权力了。
+
+WSGISocketPrefix /var/run/wsgi #
+<VirtualHost *:80>
+        ServerAdmin eric.alluse@gmail.com
+        ServerName www.tedxnju.com
+        WSGIScriptAlias / /var/www/tedxnju/tedxnju/wsgi.py
+
+        WSGIDaemonProcess tedxnju.com user=Eric processes=2 threads=15
+        WSGIProcessGroup tedxnju.com
+        <Directory /var/www/tedxnju/tedxnju>
+        <Files wsgi.py>
+        Order deny,allow
+        Allow from all
+        </Files>
+        </Directory>
+
+
+        ErrorLog logs/tedxnju.com-error_log
+</VirtualHost>
+
+<VirtualHost *:80>
+        ServerAdmin eric.alluse@gmail.com
+        ServerName www.foreric.com
+        ServerAlias foreric.com
+        WSGIScriptAlias / /var/www/myblog/myblog/wsgi.py
+        WSGIDaemonProcess myblog.com user=Eric processes=2 threads=15
+        WSGIProcessGroup myblog.com
+
+        <Directory /var/www/myblog/myblog>
+        <Files wsgi.py>
+        Order deny,allow
+        Allow from all
+        </Files>
+        </Directory>
+
+        ErrorLog logs/myblog.com-error_log
+</VirtualHost>
+apache相关资粮：
+
+http://www.csdn123.com/html/2013/netfriend_0216/222061.html
+
+
+原文链接:http://my.oschina.net/shniu/blog/228321
